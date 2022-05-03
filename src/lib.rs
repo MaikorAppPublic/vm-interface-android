@@ -28,13 +28,16 @@ pub extern "C" fn Java_app_maikor_adapter_VmInterface_getScreenHeight(_env: *mut
 
 #[no_mangle]
 pub extern "C" fn Java_app_maikor_adapter_VmInterface_render(env: *mut JNIEnv,
-                                                             _obj: JClass, bitmap: jobject) {
+                                                             _obj: JClass,
+                                                             bitmap: jobject) {
     unsafe {
         let bitmap = AndroidBitmap::from_jni(env, bitmap);
         assert_eq!(bitmap.get_info().unwrap().format(), BitmapFormat::RGBA_8888);
         assert_eq!(bitmap.get_info().unwrap().width(), SCREEN_WIDTH as u32);
         assert_eq!(bitmap.get_info().unwrap().height(), SCREEN_HEIGHT as u32);
-        assert_eq!(bitmap.get_info().unwrap().stride(), (PIXEL_SIZE * SCREEN_WIDTH) as u32);
+        assert_eq!(
+            bitmap.get_info().unwrap().stride(),
+            (PIXEL_SIZE * SCREEN_WIDTH) as u32);
 
         let mut pointer = bitmap.lock_pixels().unwrap();
         let pixels = std::slice::from_raw_parts_mut(pointer as *mut u8, SCREEN_BYTES);

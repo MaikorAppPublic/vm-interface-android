@@ -1,0 +1,22 @@
+[package]
+name = "maikor-vm-interface-android"
+version = "0.1.0"
+edition = "2021"
+authors = ["Ray Britton <raybritton@pm.me>"]
+description = "VM Interface for Android host app"
+license = "MIT"
+repository = "https://github.com/MaikorAppPublic/vm-interface-android"
+readme = "README.md"
+homepage = "https://maikor.app"
+
+[lib]
+crate_type = ["lib", "cdylib"]
+
+[target.'cfg(target_os = "android")'.dependencies]
+ndk = { version = "0.6.0", features = ["bitmap"] }
+
+[dependencies]
+maikor-vm-core = "0.1.0"
+maikor-vm-interface = { version = "0.1.0", features = ["rgba"] }
+jni = "0.19.0"
+lazy_static = "1.4.0"
